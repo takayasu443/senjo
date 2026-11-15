@@ -1,0 +1,53 @@
+<!DOCTYPE html>
+<html lang="ja">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1, viewport-fit=cover">
+<meta name="theme-color" content="#1565c0">
+<meta name="apple-mobile-web-app-capable" content="yes">
+<meta name="mobile-web-app-capable" content="yes">
+<meta name="apple-mobile-web-app-status-bar-style" content="default">
+<meta name="apple-mobile-web-app-title" content="洗浄">
+<meta name="robots" content="noindex">
+<title>洗浄タスク管理アプリ</title>
+<link rel="manifest" href="manifest.webmanifest">
+<link rel="apple-touch-icon" href="icons/apple-touch-icon.png">
+<link rel="icon" href="icons/icon-192.png">
+<link rel="stylesheet" href="style.css">
+</head>
+<body>
+<header id="top">
+  <button id="back-btn" class="back-btn hidden">← もどる</button>
+  <div class="brand">
+    <span class="logo" aria-hidden="true">洗浄</span>
+    <div>
+      <div class="title" id="title">洗浄タスク管理</div>
+      <div class="sub"><span id="sync-label" aria-live="polite">端末のみ</span></div>
+    </div>
+  </div>
+  <button id="sync-btn" class="icon-btn" title="今すぐ送信・同期" aria-label="今すぐ送信・同期">
+    <span id="sync-dot" class="dot off"></span>⟳
+  </button>
+</header>
+
+<div id="banner" class="banner hidden" role="status"></div>
+
+<main id="view"></main>
+
+<nav id="tabs" aria-label="メニュー">
+  <button data-tab="home"><span class="ic" aria-hidden="true">✏️</span>入力</button>
+  <button data-tab="log"><span class="ic" aria-hidden="true">📋</span>履歴</button>
+  <button data-tab="board"><span class="ic" aria-hidden="true">📊</span>進捗</button>
+  <button data-tab="settings"><span class="ic" aria-hidden="true">⚙️</span>設定</button>
+</nav>
+
+<div id="sheet" class="sheet hidden" role="dialog" aria-modal="true">
+  <div class="sheet-bg"></div>
+  <div class="sheet-body"></div>
+</div>
+<div id="toast" class="toast hidden" role="status" aria-live="polite"></div>
+
+<script src="core.js"></script>
+<script src="app.js"></script>
+</body>
+</html>
