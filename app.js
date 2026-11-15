@@ -1,4 +1,4 @@
-/* 洗浄タスク管理アプリ  v2.0.0
+/* 洗浄タスク管理アプリ  v2.0.1
  * - 分娩舎（列ごと）・離乳舎（部屋ごと）・離乳舎の通路・肥育舎（部屋ごと）の洗浄／消毒を
  *   「だれが・どこを・どこまで・何分かけて」で記録する
  * - スマホ1台でも動く（記録はまず端末内に保存。畜舎の中で電波が無くても記録できる）
@@ -7,12 +7,13 @@
  *   ・名前の選択肢と注意ポイントは shared.json（パソコンの tools/senjo_sync.py で更新）。このファイルには名前を書かない
  * - 共通ロジックは core.js（検証・統合・進捗・CSV）。このファイルは画面と保存・同期の制御
  *
+ * v2.0.1（2026-11-15）分娩舎に「母豚消毒完了」（列ごと）を追加（現場からの要望）
  * v2.0.0（2026-11-15）在庫アプリと同じ方式（公開URL＋共有同期＋招待リンク）に作り直し。v1 は1ファイル版
  */
 (() => {
 'use strict';
 
-const APP_VERSION = '2.0.0';
+const APP_VERSION = '2.0.1';
 const C = window.WSCore;
 const { BARNS, WASHING, STATUS_SHORT, TSURO_ROOM, fingerprint, validateEvents, validateShared, emptyShared, cautionsOf, mergeEvents, orderEvents,
   voidedSet, unitKey, latestByUnit, recordsOfUnit, buildCsv, apiArg, b64url, unb64url, barnOf, statusOf, dateOK, unitLabel, placeLabel, statusText } = C;

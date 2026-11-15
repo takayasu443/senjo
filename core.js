@@ -14,12 +14,12 @@
     { key: 'helmin', label: 'ヘルミン消毒完了' }, { key: 'lime', label: '石灰消毒完了' }];
   const BARNS = [
     { key: 'bunben', label: '分娩舎', icon: '🐖', sub: '1〜6番・列ごと', rooms: ['1', '2', '3', '4', '5', '6'], suffix: '番', cols: ['1', '2', '3', '4'], perRow: 3,
-      statuses: [WASHING, { key: 'washed', label: '洗浄完了' }, { key: 'disinfected', label: '消毒完了' }] },
+      statuses: [WASHING, { key: 'washed', label: '洗浄完了' }, { key: 'disinfected', label: '消毒完了' }, { key: 'sow', label: '母豚消毒完了' }] },   // 母豚消毒完了は 2026-11-15 の追加要望（v2.0.1）
     { key: 'rinyu', label: '離乳舎', icon: '🐽', sub: '1〜20番・部屋ごと', rooms: Array.from({ length: 20 }, (_, i) => String(i + 1)), suffix: '番', perRow: 5, statuses: ROOM_STATUSES },
     { key: 'tsuro', label: '離乳舎の通路', icon: '🚿', sub: '子豚移動後', rooms: null, statuses: [{ key: 'washed', label: '洗浄完了' }] },
     { key: 'hiiku', label: '肥育舎', icon: '🐷', sub: 'A1〜D4の16室・部屋ごと', rooms: ['A', 'B', 'C', 'D'].flatMap((a) => [1, 2, 3, 4].map((n) => a + n)), suffix: '', perRow: 4, statuses: ROOM_STATUSES },
   ];
-  const STATUS_SHORT = { washing: '途中', washed: '洗浄済', finished: '仕上げ済', helmin: 'ヘルミン済', lime: '石灰済', disinfected: '消毒済' };
+  const STATUS_SHORT = { washing: '途中', washed: '洗浄済', finished: '仕上げ済', helmin: 'ヘルミン済', lime: '石灰済', disinfected: '消毒済', sow: '母豚消毒済' };
   const TSURO_ROOM = '通路';
   const DEFAULT_CAUTIONS = ['餌ホッパーの目盛りシールに、高圧の水を強く当てない（はがれてしまいます）'];
   const MAX_MINUTES = 24 * 60;

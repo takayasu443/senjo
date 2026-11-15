@@ -4,7 +4,7 @@
  * - 正常応答(res.ok)だけをキャッシュし、HTMLの代替は画面遷移（navigate）のときだけ返す
  * - アプリのファイルは毎回サーバーに確認して取る（ブラウザの一時キャッシュで新旧が混ざらないように）
  */
-const VERSION = 'v2.0.0';
+const VERSION = 'v2.0.1';
 const PREFIX = 'senjo-';
 const CACHE = PREFIX + VERSION;
 const SHELL = [

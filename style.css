@@ -128,6 +128,7 @@ input[type=date].inp{min-height:52px}
 .cell.finished{background:var(--teal-bg);border-color:var(--teal);color:var(--teal)}
 .cell.helmin{background:var(--purple-bg);border-color:var(--purple);color:var(--purple)}
 .cell.lime,.cell.disinfected{background:var(--green-bg);border-color:var(--green);color:var(--green)}
+.cell.sow{background:#fce4ec;border-color:#ad1457;color:#ad1457}
 .rowlabel{font-size:14px;font-weight:bold;display:flex;align-items:center;justify-content:center}
 .legend{display:flex;flex-wrap:wrap;gap:6px;margin-bottom:12px}
 .legend .cell{min-height:0;padding:3px 9px;flex-direction:row;font-size:12px;font-weight:bold}
