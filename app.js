@@ -1,4 +1,4 @@
-/* 洗浄タスク管理アプリ  v2.0.1
+/* 洗浄タスク管理アプリ  v2.0.2
  * - 分娩舎（列ごと）・離乳舎（部屋ごと）・離乳舎の通路・肥育舎（部屋ごと）の洗浄／消毒を
  *   「だれが・どこを・どこまで・何分かけて」で記録する
  * - スマホ1台でも動く（記録はまず端末内に保存。畜舎の中で電波が無くても記録できる）
@@ -13,7 +13,7 @@
 (() => {
 'use strict';
 
-const APP_VERSION = '2.0.1';
+const APP_VERSION = '2.0.2';
 const C = window.WSCore;
 const { BARNS, WASHING, STATUS_SHORT, TSURO_ROOM, fingerprint, validateEvents, validateShared, emptyShared, cautionsOf, mergeEvents, orderEvents,
   voidedSet, unitKey, latestByUnit, recordsOfUnit, buildCsv, apiArg, b64url, unb64url, barnOf, statusOf, dateOK, unitLabel, placeLabel, statusText } = C;
@@ -301,8 +301,11 @@ function voidRecord(id) {
 // ---------- タブ：進捗（全員分） ----------
 function cellHtml(barnKey, room, col, label, latest) {
   const r = latest.get(unitKey(barnKey, room, col));
-  const st = r ? r.status : ''; const txt = r ? (st === 'washing' ? '途中 ' + r.pct + '%' : (STATUS_SHORT[st] || st)) : '記録なし';
-  return `<button class="cell ${st}" data-act="unit" data-barn="${barnKey}" data-room="${esc(room)}" data-col="${esc(col)}"><span class="u">${esc(label)}</span><span class="s">${esc(txt)}</span><span class="d">${r ? md(r.date) + ' ' + esc(r.name) : ''}</span></button>`;
+  // 最後の記録日から FRESH_DAYS 日をこえた場所は色を外す（記録は消えず、押すと履歴が見られる）
+  const stale = !!r && !C.isFresh(r.date, today());
+  const st = r && !stale ? r.status : '';
+  const txt = !r ? '記録なし' : stale ? (C.ageDays(r.date, today()) + '日前') : (st === 'washing' ? '途中 ' + r.pct + '%' : (STATUS_SHORT[st] || st));
+  return `<button class="cell ${st}${stale ? ' stale' : ''}" data-act="unit" data-barn="${barnKey}" data-room="${esc(room)}" data-col="${esc(col)}"><span class="u">${esc(label)}</span><span class="s">${esc(txt)}</span><span class="d">${r ? md(r.date) + ' ' + esc(r.name) : ''}</span></button>`;
 }
 function boardHtml() {
   const b = barnOf(state.boardBarn); const { latest } = derived(); let grid;
@@ -318,9 +321,10 @@ function boardHtml() {
   return `<div class="card">
     <h2>📊 どこまで終わっているか</h2>
     <div class="grid g4" style="margin-bottom:12px;">${BARNS.map((x) => `<button class="pick wide ${state.boardBarn === x.key ? 'sel' : ''}" data-act="board" data-barn="${x.key}">${x.key === 'tsuro' ? '通路' : x.label}</button>`).join('')}</div>
-    <div class="legend">${keys.map((k) => `<span class="cell ${k}">${k === 'washing' ? '洗浄途中' : esc(statusOf(b.key, k).label)}</span>`).join('')}<span class="cell">記録なし</span></div>
+    <div class="legend">${keys.map((k) => `<span class="cell ${k}">${k === 'washing' ? '洗浄途中' : esc(statusOf(b.key, k).label)}</span>`).join('')}<span class="cell">記録なし</span><span class="cell stale">${C.FRESH_DAYS}日より前</span></div>
     ${grid}
     <p class="note" style="margin-top:12px;">それぞれの場所の<b>いちばん新しい記録</b>（日付と入力した人）です。押すとその場所の記録が見られます。<br>
+    最後の記録から<b>${C.FRESH_DAYS}日</b>をこえた場所は、色が外れて「○日前」と灰色で表示されます（記録は「履歴」に残っています）。<br>
     ${connected() ? '全員の記録が自動で集まります（右上の ⟳ で今すぐ更新）。' : '※まだ共有されていないので、この端末で入力した記録だけが表示されます。'}</p>
   </div>`;
 }

@@ -148,3 +148,7 @@ input[type=date].inp{min-height:52px}
 details summary{cursor:pointer;font-weight:600;padding:6px 0}
 ol.steps{padding-left:20px;margin:6px 0}
 ol.steps li{margin:4px 0}
+
+/* 最後の記録から14日をこえた場所（色を外す。v2.0.2） */
+.cell.stale{background:#f1f3f5;border:2px dashed #b0bec5;color:#78909c}
+.cell.stale .u{color:#607d8b}

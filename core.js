@@ -135,6 +135,16 @@
   function activeRecords(events) { const v = voidedSet(events); return orderEvents(events.filter((e) => e.type === 'rec' && !v.has(e.id))); }
 
   const unitKey = (barn, room, col) => barn + '|' + room + '|' + col;
+  /** 進捗の色を残す日数。その場所の最後の記録日から、この日数をこえたら色を外す（記録は履歴に残る）。v2.0.2 */
+  const FRESH_DAYS = 14;
+  /** 作業日（YYYY-MM-DD）から今日（YYYY-MM-DD）までの日数。同じ日は0。未来の日付は0 */
+  function ageDays(date, todayStr) {
+    if (!dateOK(date) || !dateOK(todayStr)) return 0;
+    const n = Math.round((Date.parse(todayStr + 'T00:00:00Z') - Date.parse(date + 'T00:00:00Z')) / 86400e3);
+    return n < 0 ? 0 : n;
+  }
+  /** 進捗に色をつけてよい記録か（最後の記録日から FRESH_DAYS 日以内） */
+  const isFresh = (date, todayStr) => ageDays(date, todayStr) <= FRESH_DAYS;
   /** 場所ごとの「いちばん新しい記録」。作業日 → 入力時刻 → ID の順で新しいものを採用（全端末で同じ結果になる） */
   function latestByUnit(events) {
     const m = new Map();
@@ -178,5 +188,5 @@
 
   return { WASHING, ROOM_STATUSES, BARNS, STATUS_SHORT, TSURO_ROOM, DEFAULT_CAUTIONS, MAX_MINUTES, ID_RE, CSV_HEAD,
     barnOf, statusOf, dateOK, unitLabel, placeLabel, statusText, fingerprint, validateEvents, validateShared, emptyShared, cautionsOf,
-    orderEvents, mergeEvents, voidedSet, activeRecords, unitKey, latestByUnit, recordsOfUnit, toRows, buildCsv, fmtStamp, apiArg, b64url, unb64url };
+    orderEvents, mergeEvents, voidedSet, activeRecords, unitKey, FRESH_DAYS, ageDays, isFresh, latestByUnit, recordsOfUnit, toRows, buildCsv, fmtStamp, apiArg, b64url, unb64url };
 });
